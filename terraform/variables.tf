@@ -50,6 +50,25 @@ variable "lambda_add_item_zip_path" {
   default     = "../build/add_item_dynamodb.zip"
 }
 
+# Lambda: update_item
+variable "lambda_update_item_name" {
+  description = "Nome da função Lambda update_item"
+  type        = string
+  default     = "update_item_lambda"
+}
+
+variable "lambda_update_item_handler" {
+  description = "Handler da função Lambda update_item"
+  type        = string
+  default     = "update_item.lambda_handler"
+}
+
+variable "lambda_update_item_zip_path" {
+  description = "Caminho para o arquivo zip da Lambda update_item"
+  type        = string
+  default     = "../build/update_item.zip"
+}
+
 # Runtime compartilhado entre as funções
 variable "lambda_runtime" {
   description = "Runtime da Lambda"
