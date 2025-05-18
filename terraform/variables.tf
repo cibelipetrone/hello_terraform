@@ -69,6 +69,25 @@ variable "lambda_update_item_zip_path" {
   default     = "../build/update_item.zip"
 }
 
+# Lambda: delete_item
+variable "lambda_delete_item_name" {
+  description = "Nome da função Lambda delete_item"
+  type        = string
+  default     = "delete_item_lambda"
+}
+
+variable "lambda_delete_item_handler" {
+  description = "Handler da função Lambda delete_item"
+  type        = string
+  default     = "delete_item.lambda_handler"
+}
+
+variable "lambda_delete_item_zip_path" {
+  description = "Caminho para o arquivo zip da Lambda delete_item"
+  type        = string
+  default     = "../build/delete_item.zip"
+}
+
 # Runtime compartilhado entre as funções
 variable "lambda_runtime" {
   description = "Runtime da Lambda"

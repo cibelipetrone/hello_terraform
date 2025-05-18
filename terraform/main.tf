@@ -46,3 +46,13 @@ module "lambda_update_item" {
   role_arn      = module.iam_lambda.role_arn
   filename      = var.lambda_update_item_zip_path
 }
+
+module "lambda_delete_item" {
+  source = "./modules/lambda"
+
+  function_name = var.lambda_delete_item_name
+  handler       = var.lambda_delete_item_handler
+  runtime       = var.lambda_runtime
+  role_arn      = module.iam_lambda.role_arn
+  filename      = var.lambda_delete_item_zip_path
+}
