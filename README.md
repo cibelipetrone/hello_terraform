@@ -24,7 +24,15 @@ git clone
 cd hello-terraform
 ```
 
-### 3. Gerando os arquivos ZIP das Lambdas
+### 3. Instalando as dependências Python
+
+Antes de empacotar as funções Lambda, instale as dependências necessárias:
+
+```sh
+pip install -r requirements.txt
+```
+
+### 4. Gerando os arquivos ZIP das Lambdas
 
 Antes de rodar o `terraform plan` ou `terraform apply`, é necessário gerar os arquivos `.zip` das funções Lambda. Siga os passos abaixo:
 
@@ -68,7 +76,7 @@ Antes de rodar o `terraform plan` ou `terraform apply`, é necessário gerar os 
 
 4. **Verifique se os arquivos `.zip` foram criados na pasta `build`.**
 
-### 4. Inicialize o Terraform
+### 5. Inicialize o Terraform
 
 ``` 
 cd terraform
