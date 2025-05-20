@@ -6,7 +6,7 @@ Este projeto tem como objetivo criar uma função AWS Lambda com Terraform, como
 
 - AWS Lambda
 - Terraform
-- Java
+- Python
 
 ## Como iniciar o projeto
 
@@ -14,25 +14,17 @@ Este projeto tem como objetivo criar uma função AWS Lambda com Terraform, como
 
 - AWS CLI instalado e configurado
 - Terraform instalado
-- Java 17
+- Python
 - Git
 
 ### 2. Clone o repositorio:
 
 ```
 git clone
-cd hello-world-terraform
+cd hello-terraform
 ```
 
-### 3. Realizar o build com Maven
-
-```
-mvn clean package
-```
-
-O .jar será gerado na pasta target/
-
-### 4. Inicialize o Terrafom
+### 3. Inicialize o Terrafom
 
 ``` 
 cd terraform

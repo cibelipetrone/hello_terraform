@@ -39,6 +39,7 @@ build/
 terraform.tfstate
 terraform.tfstate.backup
 .terraform/
+.terraform.lock.hcl
 
 # Python
 __pycache__/
@@ -49,6 +50,7 @@ dist/
 build/
 .eggs/
 *.log
+.zip
 
 # Ambiente virtual
 venv/
