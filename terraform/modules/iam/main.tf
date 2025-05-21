@@ -46,3 +46,29 @@ resource "aws_iam_role_policy_attachment" "lambda_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
+
+data "aws_iam_policy_document" "lambda_cognito_policy" {
+  statement {
+    actions = [
+      "cognito-idp:DescribeUserPool",
+      "cognito-idp:DescribeUserPoolClient",
+      "cognito-idp:ListUsers",
+      "cognito-idp:ListUsersInGroup",
+      "cognito-idp:AdminGetUser",
+      "cognito-idp:AdminListGroupsForUser"
+    ]
+    resources = [
+      var.cognito_user_pool_arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "lambda_cognito" {
+  name   = "${var.role_name}-cognito-policy"
+  policy = data.aws_iam_policy_document.lambda_cognito_policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_cognito" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.lambda_cognito.arn
+}
