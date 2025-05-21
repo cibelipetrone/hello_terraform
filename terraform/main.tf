@@ -13,9 +13,9 @@ module "dynamodb" {
 module "iam_lambda" {
   source = "./modules/iam"
 
-  role_name          = var.role_name
-  dynamodb_table_arn = module.dynamodb.table_arn
-   cognito_user_pool_arn = module.cognito.user_pool_arn
+  role_name             = var.role_name
+  dynamodb_table_arn    = module.dynamodb.table_arn
+  cognito_user_pool_arn = module.cognito.user_pool_arn
 }
 
 module "cognito" {
@@ -35,7 +35,7 @@ module "lambda_hello" {
   filename      = var.lambda_hello_zip_path
 
   cognito_user_pool_id = module.cognito.user_pool_id
-  cognito_client_id = module.cognito.client_id
+  cognito_client_id    = module.cognito.client_id
 }
 
 module "lambda_add_item" {
@@ -48,7 +48,7 @@ module "lambda_add_item" {
   filename      = var.lambda_add_item_zip_path
 
   cognito_user_pool_id = module.cognito.user_pool_id
-  cognito_client_id = module.cognito.client_id
+  cognito_client_id    = module.cognito.client_id
 }
 
 module "lambda_update_item" {
@@ -61,7 +61,7 @@ module "lambda_update_item" {
   filename      = var.lambda_update_item_zip_path
 
   cognito_user_pool_id = module.cognito.user_pool_id
-  cognito_client_id = module.cognito.client_id
+  cognito_client_id    = module.cognito.client_id
 }
 
 module "lambda_delete_item" {
@@ -74,7 +74,7 @@ module "lambda_delete_item" {
   filename      = var.lambda_delete_item_zip_path
 
   cognito_user_pool_id = module.cognito.user_pool_id
-  cognito_client_id = module.cognito.client_id
+  cognito_client_id    = module.cognito.client_id
 }
 
 module "api_gateway" {
