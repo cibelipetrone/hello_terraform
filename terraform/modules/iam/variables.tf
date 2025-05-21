@@ -8,3 +8,9 @@ variable "dynamodb_table_arn" {
   description = "ARN da tabela DynamoDB que a Lambda vai acessar"
 }
 
+variable "cognito_user_pool_arn" {
+  description = "ARN do User Pool do Cognito"
+  type        = string
+  default     = ""
+}
+

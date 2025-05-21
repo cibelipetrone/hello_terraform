@@ -19,18 +19,109 @@ Este projeto tem como objetivo criar uma função AWS Lambda com Terraform, como
 
 ### 2. Clone o repositorio:
 
-```
+ ```
 git clone
 cd hello-terraform
 ```
 
-### 3. Inicialize o Terrafom
+### 3. Instalando as dependências Python
+
+Antes de empacotar as funções Lambda, instale as dependências necessárias:
+
+```sh
+pip install -r requirements.txt
+```
+
+### 4. Gerando os arquivos ZIP das Lambdas
+
+Antes de rodar o `terraform plan` ou `terraform apply`, é necessário gerar os arquivos `.zip` das funções Lambda. Siga os passos abaixo:
+
+1. **Entre na pasta `hello_terraform`**, pois é lá que estão as pastas `src` e `build`:
+
+   ```powershell
+   cd hello_terraform
+   ```
+
+2. **Crie a pasta `build` (caso ainda não exista):**
+
+   ```powershell
+   mkdir .\build
+   ```
+
+3. **Rode cada comando separadamente para gerar os arquivos ZIP:**
+
+   - Primeiro comando:
+
+     ```powershell
+     Compress-Archive -Path .\src\lambda\lambda_hello\* -DestinationPath .\build\hello_terraform.zip
+     ```
+
+   - Segundo comando:
+
+     ```powershell
+     Compress-Archive -Path .\src\lambda\shopping_list\add_item_dynamodb.py -DestinationPath .\build\add_item_dynamodb.zip
+     ```
+
+   - Terceiro comando:
+
+     ```powershell
+     Compress-Archive -Path .\src\lambda\shopping_list\update_item.py -DestinationPath .\build\update_item.zip
+     ```
+
+   - Quarto comando:
+
+     ```powershell
+     Compress-Archive -Path .\src\lambda\shopping_list\delete_item.py -DestinationPath .\build\delete_item.zip
+     ```
+
+4. **Verifique se os arquivos `.zip` foram criados na pasta `build`.**
+
+### 5. Inicialize o Terraform
 
 ``` 
 cd terraform
 terraform init
 terraform plan
 terraform apply
+```
+
+## Como Usar os Scripts
+
+### 1. Menu Interativo para Gerenciar Usuários
+
+```bash
+python manage_users.py
+```
+
+Você verá um menu com opções para:
+
+- Atualizar email  
+- Atualizar nome de usuário preferido  
+- Criar novo usuário  
+- Sair  
+
+### 2. Modo Linha de Comando - Atualizar Email
+
+```bash
+python manage_users.py --mode email --username grazi --email novo@exemplo.com
+```
+
+### 3. Modo Linha de Comando - Atualizar Nome de Usuário Preferido
+
+```bash
+python manage_users.py --mode username --username grazi --new-username novonome
+```
+
+### 4. Modo Linha de Comando - Criar Novo Usuário
+
+```bash
+python manage_users.py --mode create --username novousuario --email novo@exemplo.com --password SenhaSegura123
+```
+
+### Script de Token e Autenticação
+
+```bash
+python test_api_interactive.py
 ```
 
 ## Como colaborar
