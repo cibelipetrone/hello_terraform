@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "d0aff776-72c1-4198-9091-e475ce87a435",
+		"name": "AWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33033704"
+	},
+	"item": [
+		{
+			"name": "Token",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Amz-Target",
+						"value": "AWSCognitoIdentityProviderService.InitiateAuth",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-amz-json-1.1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"AuthFlow\": \"USER_PASSWORD_AUTH\",\r\n  \"ClientId\": \"ga4jro0spsb7vs9832d7g4v2i\",\r\n  \"AuthParameters\": {\r\n    \"USERNAME\": \"grazi\",\r\n    \"PASSWORD\": \"Test123!\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cognito-idp.sa-east-1.amazonaws.com/",
+					"protocol": "https",
+					"host": [
+						"cognito-idp",
+						"sa-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Autenticar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJnVUlkeVYxQUdiWFwvWDNnVlJKQVhEZWc0XC91Rk1TRnRQanA4dG94KzVTOGc9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJmMzNjOGFhYS1jMDgxLTcwYTctY2Y4NS0zMmIyN2Y4ODBlZTkiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnNhLWVhc3QtMS5hbWF6b25hd3MuY29tXC9zYS1lYXN0LTFfS0lXcHZxMWNGIiwiY29nbml0bzp1c2VybmFtZSI6ImdyYXppIiwib3JpZ2luX2p0aSI6ImU5ZTZmYmNhLWZhNGQtNGEzYS04OTdlLWQ0ZGVhM2IyNGM0MCIsImF1ZCI6ImdhNGpybzBzcHNiN3ZzOTgzMmQ3ZzR2MmkiLCJldmVudF9pZCI6ImQzOWY0ZWI2LTgwNjctNGZmNC1iOTIyLTRjM2YwYTg3NDI1MiIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNzQ3ODE1ODEwLCJleHAiOjE3NDc4MTk0MTAsImlhdCI6MTc0NzgxNTgxMCwianRpIjoiNWFmNGY0ZjktMjA1Yy00MjgyLTljOWMtYzA0MDI5MTMxZmJiIiwiZW1haWwiOiJncmF6aWVsbGVmZXJyZWlyYTExOUBnbWFpbC5jb20ifQ.OnDgOxjNvXELe-VxBhIkTBh9BzdxAl_yEzeMWqK5_3J4_nZY_J2gqcgNJrDgCtiq4NehnMKGsbVqo54jdwDIjQKs8pGo8d2P1orJgTbHXL7goDxzkjNm7lDG3Z98TTea2ahG5H_vfni4rwRnwSUI9Hh-efN_SK9K-ixJLdp_nJlzcmU8OOPtOeRPQTMgC5nckUCc5lr0J0o4t86uXJd6Kf_PW5vy3XRKGvCzsPv79eGsHDBKabtBE_Sz8sCGm8WerW9CF9UoNUhi8nqvcEoJuQ4jO7xH-HD8SVfWuxflR6p3t29gaxYOGSaDVlnXJIWsW-dygvqLEAJW5WMz0jV8yg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://fkvjwyt090.execute-api.sa-east-1.amazonaws.com/prod/hello",
+					"protocol": "https",
+					"host": [
+						"fkvjwyt090",
+						"execute-api",
+						"sa-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"prod",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
