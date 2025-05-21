@@ -85,6 +85,45 @@ terraform plan
 terraform apply
 ```
 
+## Como Usar os Scripts
+
+### 1. Menu Interativo para Gerenciar Usuários
+
+```bash
+python manage_users.py
+```
+
+Você verá um menu com opções para:
+
+- Atualizar email  
+- Atualizar nome de usuário preferido  
+- Criar novo usuário  
+- Sair  
+
+### 2. Modo Linha de Comando - Atualizar Email
+
+```bash
+python manage_users.py --mode email --username grazi --email novo@exemplo.com
+```
+
+### 3. Modo Linha de Comando - Atualizar Nome de Usuário Preferido
+
+```bash
+python manage_users.py --mode username --username grazi --new-username novonome
+```
+
+### 4. Modo Linha de Comando - Criar Novo Usuário
+
+```bash
+python manage_users.py --mode create --username novousuario --email novo@exemplo.com --password SenhaSegura123
+```
+
+### Script de Token e Autenticação
+
+```bash
+python test_api_interactive.py
+```
+
 ## Como colaborar
 
 Para colaborar com o projeto e propor mudanças é necessario a abertura de Pull Requests (PRs)
