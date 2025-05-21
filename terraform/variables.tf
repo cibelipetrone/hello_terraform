@@ -11,6 +11,11 @@ variable "role_name" {
   default     = "my_lambda_role"
 }
 
+variable "cognito_user_pool_name" {
+  description = "Nome do User Pool do Cognito"
+  type        = string
+  default     = "shopping-list-user-pool"
+}
 
 # Lambda: hello_terraform
 variable "lambda_hello_name" {
