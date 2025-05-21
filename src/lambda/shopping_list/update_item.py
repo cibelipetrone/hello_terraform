@@ -1,6 +1,9 @@
 import boto3
 import os
+import logging
 from datetime import datetime
+
+logger = logging.getLogger()
 
 dynamodb = boto3.client('dynamodb')
 TABLE_NAME = os.getenv("TABLE_NAME", "shopping_list")
@@ -40,7 +43,7 @@ def lambda_handler(event, context):
             return {"success": True, "item": simplify_item(item)}
 
     except Exception as e:
-        context.logger.log(f"Erro: {e}")
+        logger.error(f"Erro: {e}")
         return error_response(500, "Erro interno.")
 
 
@@ -52,13 +55,16 @@ def get_item(pk, sk):
 def update_fields(pk, sk, name, status):
     exprs = []
     values = {}
+    attr_names = {}
 
     if name:
-        exprs.append("name = :n")
+        exprs.append("#n = :n")
         values[":n"] = {"S": name}
+        attr_names["#n"] = "name"
     if status:
-        exprs.append("status = :s")
+        exprs.append("#s = :s")
         values[":s"] = {"S": status}
+        attr_names["#s"] = "status"
 
     if not exprs:
         return get_item(pk, sk)
@@ -68,6 +74,7 @@ def update_fields(pk, sk, name, status):
         Key={"PK": {"S": pk}, "SK": {"S": sk}},
         UpdateExpression="SET " + ", ".join(exprs),
         ExpressionAttributeValues=values,
+        ExpressionAttributeNames=attr_names,
         ReturnValues="ALL_NEW"
     )
     return response["Attributes"]

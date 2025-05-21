@@ -29,3 +29,15 @@ variable "environment_variables" {
   description = "Variáveis de ambiente para a Lambda"
   default     = {}
 }
+
+variable "cognito_user_pool_id" {
+  description = "ID do User Pool do Cognito"
+  type        = string
+  default     = ""
+}
+
+variable "cognito_client_id" {
+  description = "ID do Cliente do User Pool do Cognito"
+  type        = string
+  default     = ""
+}

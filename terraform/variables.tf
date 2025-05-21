@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "Região da AWS"
   type        = string
-  default     = "sa-east-1" 
+  default     = "sa-east-1"
 }
 
 # Role IAM
@@ -11,6 +11,11 @@ variable "role_name" {
   default     = "my_lambda_role"
 }
 
+variable "cognito_user_pool_name" {
+  description = "Nome do User Pool do Cognito"
+  type        = string
+  default     = "shopping-list-user-pool"
+}
 
 # Lambda: hello_terraform
 variable "lambda_hello_name" {
