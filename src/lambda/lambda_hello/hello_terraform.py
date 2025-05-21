@@ -1,10 +1,20 @@
 import json
 
 def lambda_handler(event, context):
-    return success_response("Hello, Terraform!")
-
-def success_response(message):
+    # Obter informações do usuário autenticado via Cognito
+    claims = event.get('requestContext', {}).get('authorizer', {}).get('claims', {})
+    user_id = claims.get('sub', 'Usuário não identificado')
+    email = claims.get('email', 'Email não disponível')
+    
     return {
-        "statusCode": 200,
-        "body": json.dumps({"message": message})  
+        'statusCode': 200,
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'  # Para CORS
+        },
+        'body': json.dumps({
+            'message': f"Hello, Terraform! Você está autenticado com sucesso.",
+            'userId': user_id,
+            'email': email
+        })
     }
