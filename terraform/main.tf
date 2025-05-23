@@ -8,7 +8,7 @@ terraform {
   backend "s3" {
     bucket         = "meu-terraform-state-bucket-dev"
     key            = "global/s3/terraform.tfstate"
-    region         = "sa-east-1" 
+    region         = "sa-east-1"
     dynamodb_table = "terraform-locks-dev"
     encrypt        = true
   }
@@ -16,7 +16,7 @@ terraform {
 
 # Bucket para armazenar o tfstate
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "meu-terraform-state-bucket-dev" 
+  bucket = "meu-terraform-state-bucket-dev"
 
   tags = {
     Name        = "Terraform State Bucket"
@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "terraform_state" {
 resource "aws_s3_bucket_versioning" "terraform_state" {
   bucket = aws_s3_bucket.terraform_state.id
   versioning_configuration {
-    status = "Enabled"  
+    status = "Enabled"
   }
 }
 
