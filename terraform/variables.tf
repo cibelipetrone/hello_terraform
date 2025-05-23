@@ -33,7 +33,7 @@ variable "lambda_hello_handler" {
 variable "lambda_hello_zip_path" {
   description = "Caminho para o arquivo zip da Lambda hello_terraform"
   type        = string
-  default     = "../build/hello_terraform.zip"
+  default     = "../dist/hello_terraform_lambda.zip"
 }
 
 # Lambda: add_item_dynamodb
@@ -52,7 +52,7 @@ variable "lambda_add_item_handler" {
 variable "lambda_add_item_zip_path" {
   description = "Caminho para o arquivo zip da Lambda add_item_dynamodb"
   type        = string
-  default     = "../build/add_item_dynamodb.zip"
+  default     = "../dist/add_item_dynamodb.zip"
 }
 
 # Lambda: update_item
@@ -71,7 +71,7 @@ variable "lambda_update_item_handler" {
 variable "lambda_update_item_zip_path" {
   description = "Caminho para o arquivo zip da Lambda update_item"
   type        = string
-  default     = "../build/update_item.zip"
+  default     = "../dist/update_item.zip"
 }
 
 # Lambda: delete_item
@@ -90,7 +90,7 @@ variable "lambda_delete_item_handler" {
 variable "lambda_delete_item_zip_path" {
   description = "Caminho para o arquivo zip da Lambda delete_item"
   type        = string
-  default     = "../build/delete_item.zip"
+  default     = "../dist/delete_item.zip"
 }
 
 # Runtime compartilhado entre as funções
