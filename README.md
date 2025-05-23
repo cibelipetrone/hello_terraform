@@ -36,45 +36,19 @@ pip install -r requirements.txt
 
 Antes de rodar o `terraform plan` ou `terraform apply`, é necessário gerar os arquivos `.zip` das funções Lambda. Siga os passos abaixo:
 
-1. **Entre na pasta `hello_terraform`**, pois é lá que estão as pastas `src` e `build`:
+1. **Entre na pasta `hello_terraform`**, pois é lá que está a pasta `scripts`:
 
-   ```powershell
-   cd hello_terraform
-   ```
+ ```
+ cd hello_terraform
+ ```
 
-2. **Crie a pasta `build` (caso ainda não exista):**
+2. **Rode o comando para gerar os arquivos ZIP:**
 
-   ```powershell
-   mkdir .\build
-   ```
+  ```bash
+  python scripts/build_lambdas.py
+  ```
 
-3. **Rode cada comando separadamente para gerar os arquivos ZIP:**
-
-   - Primeiro comando:
-
-     ```powershell
-     Compress-Archive -Path .\src\lambda\lambda_hello\* -DestinationPath .\build\hello_terraform.zip
-     ```
-
-   - Segundo comando:
-
-     ```powershell
-     Compress-Archive -Path .\src\lambda\shopping_list\add_item_dynamodb.py -DestinationPath .\build\add_item_dynamodb.zip
-     ```
-
-   - Terceiro comando:
-
-     ```powershell
-     Compress-Archive -Path .\src\lambda\shopping_list\update_item.py -DestinationPath .\build\update_item.zip
-     ```
-
-   - Quarto comando:
-
-     ```powershell
-     Compress-Archive -Path .\src\lambda\shopping_list\delete_item.py -DestinationPath .\build\delete_item.zip
-     ```
-
-4. **Verifique se os arquivos `.zip` foram criados na pasta `build`.**
+3. **Verifique se os arquivos `.zip` foram criados na pasta `dist`.**
 
 ### 5. Inicialize o Terraform
 
