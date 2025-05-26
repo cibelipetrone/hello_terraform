@@ -78,7 +78,7 @@ resource "aws_lambda_permission" "apigw_list_items" {
 }
 
 resource "aws_api_gateway_deployment" "this" {
-  depends_on  = [
+  depends_on = [
     aws_api_gateway_integration.hello_get,
     aws_api_gateway_integration.lista_tarefa_get
   ]
