@@ -93,6 +93,25 @@ variable "lambda_delete_item_zip_path" {
   default     = "../dist/delete_item.zip"
 }
 
+# Lambda: list_items
+variable "lambda_list_items_name" {
+  description = "Nome da função Lambda list_items"
+  type        = string
+  default     = "list_items_lambda"
+}
+
+variable "lambda_list_items_handler" {
+  description = "Handler da função Lambda list_items"
+  type        = string
+  default     = "list_items.lambda_handler"
+}
+
+variable "lambda_list_items_zip_path" {
+  description = "Caminho para o arquivo zip da Lambda list_items"
+  type        = string
+  default     = "../dist/list_items.zip"
+}
+
 # Runtime compartilhado entre as funções
 variable "lambda_runtime" {
   description = "Runtime da Lambda"

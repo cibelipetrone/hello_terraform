@@ -25,7 +25,9 @@ resource "aws_iam_policy" "lambda_policy" {
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:UpdateItem",
-          "dynamodb:DeleteItem"
+          "dynamodb:DeleteItem",
+           "dynamodb:Query",
+          "dynamodb:Scan"
         ]
         Resource = var.dynamodb_table_arn
       },
