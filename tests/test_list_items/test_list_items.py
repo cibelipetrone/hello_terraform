@@ -60,7 +60,7 @@ def test_list_all_items_success(mock_dynamodb, setup_data):
     
     response = lambda_function.lambda_handler(sample_event_all, mock_context)
     
-    assert response["success"] == True
+    assert response["success"] is True
     assert response["count"] == 3
     assert len(response["items"]) == 3
     
@@ -96,7 +96,7 @@ def test_list_items_by_date_success(mock_dynamodb, setup_data):
     
     response = lambda_function.lambda_handler(sample_event_with_date, mock_context)
     
-    assert response["success"] == True
+    assert response["success"] is True
     assert response["count"] == 2
     assert len(response["items"]) == 2
     
@@ -120,7 +120,7 @@ def test_list_all_items_empty_list(mock_dynamodb, setup_data):
     
     response = lambda_function.lambda_handler(sample_event_all, mock_context)
     
-    assert response["success"] == True
+    assert response["success"] is True
     assert response["count"] == 0
     assert len(response["items"]) == 0
 
@@ -132,7 +132,7 @@ def test_list_items_by_date_empty_list(mock_dynamodb, setup_data):
     
     response = lambda_function.lambda_handler(sample_event_with_date, mock_context)
     
-    assert response["success"] == True
+    assert response["success"] is True
     assert response["count"] == 0
     assert len(response["items"]) == 0
 
