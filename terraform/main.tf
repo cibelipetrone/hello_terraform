@@ -14,7 +14,7 @@ terraform {
   }
 }
 
-# Bucket para armazenar o tfstate
+#Bucket para armazenar o tfstate
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "meu-terraform-state-bucket-dev"
 
@@ -41,7 +41,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" 
   }
 }
 
-# Tabela DynamoDB para controle de locking
+#Tabela DynamoDB para controle de locking
 resource "aws_dynamodb_table" "terraform_locks" {
   name         = "terraform-locks-dev"
   billing_mode = "PAY_PER_REQUEST"
@@ -133,11 +133,26 @@ module "lambda_delete_item" {
   cognito_client_id    = module.cognito.client_id
 }
 
+module "lambda_list_items" {
+  source = "./modules/lambda"
+
+  function_name = var.lambda_list_items_name
+  handler       = var.lambda_list_items_handler
+  runtime       = var.lambda_runtime
+  role_arn      = module.iam_lambda.role_arn
+  filename      = var.lambda_list_items_zip_path
+
+  cognito_user_pool_id = module.cognito.user_pool_id
+  cognito_client_id    = module.cognito.client_id
+}
+
 module "api_gateway" {
-  source                = "./modules/api_gateway"
-  api_name              = "shopping-list-api"
-  cognito_user_pool_arn = module.cognito.user_pool_arn
-  lambda_hello_arn      = module.lambda_hello.lambda_arn
-  lambda_hello_name     = module.lambda_hello.lambda_name
-  aws_region            = var.aws_region
+  source                 = "./modules/api_gateway"
+  api_name               = "shopping-list-api"
+  cognito_user_pool_arn  = module.cognito.user_pool_arn
+  lambda_hello_arn       = module.lambda_hello.lambda_arn
+  lambda_hello_name      = module.lambda_hello.lambda_name
+  lambda_list_items_arn  = module.lambda_list_items.lambda_arn
+  lambda_list_items_name = module.lambda_list_items.lambda_name
+  aws_region             = var.aws_region
 }
