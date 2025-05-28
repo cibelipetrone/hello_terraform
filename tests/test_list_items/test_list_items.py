@@ -50,6 +50,12 @@ def setup_data():
     
     return mock_context, sample_event_all, sample_event_with_date, sample_dynamodb_items
 
+def parse_response(response):
+    """Helper function to parse API Gateway response format."""
+    if "body" in response:
+        return json.loads(response["body"])
+    return response
+
 @patch('lambdas.shopping_list.list_items.list_items.dynamodb')
 def test_list_all_items_success(mock_dynamodb, setup_data):
     """Testa a listagem bem-sucedida de todos os itens."""
@@ -59,18 +65,20 @@ def test_list_all_items_success(mock_dynamodb, setup_data):
     }
     
     response = lambda_function.lambda_handler(sample_event_all, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] is True
-    assert response["count"] == 3
-    assert len(response["items"]) == 3
+    assert response["statusCode"] == 200
+    assert parsed_response["success"] is True
+    assert parsed_response["count"] == 3
+    assert len(parsed_response["items"]) == 3
     
     # Verifica se os itens foram simplificados corretamente
     assert any(item["name"] == "Leite" and item["status"] == "todo" 
-               for item in response["items"])
+               for item in parsed_response["items"])
     assert any(item["name"] == "Pão" and item["status"] == "done" 
-               for item in response["items"])
+               for item in parsed_response["items"])
     assert any(item["name"] == "Ovos" and item["status"] == "todo" 
-               for item in response["items"])
+               for item in parsed_response["items"])
     
     # Verifica se o scan foi chamado corretamente
     mock_dynamodb.scan.assert_called_once_with(
@@ -95,13 +103,15 @@ def test_list_items_by_date_success(mock_dynamodb, setup_data):
     }
     
     response = lambda_function.lambda_handler(sample_event_with_date, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] is True
-    assert response["count"] == 2
-    assert len(response["items"]) == 2
+    assert response["statusCode"] == 200
+    assert parsed_response["success"] is True
+    assert parsed_response["count"] == 2
+    assert len(parsed_response["items"]) == 2
     
     # Verifica se apenas os itens da data correta foram retornados
-    assert all(item["PK"] == "list#20250526" for item in response["items"])
+    assert all(item["PK"] == "list#20250526" for item in parsed_response["items"])
     
     # Verifica se o query foi chamado corretamente
     mock_dynamodb.query.assert_called_once_with(
@@ -119,10 +129,12 @@ def test_list_all_items_empty_list(mock_dynamodb, setup_data):
     mock_dynamodb.scan.return_value = {"Items": []}
     
     response = lambda_function.lambda_handler(sample_event_all, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] is True
-    assert response["count"] == 0
-    assert len(response["items"]) == 0
+    assert response["statusCode"] == 200
+    assert parsed_response["success"] is True
+    assert parsed_response["count"] == 0
+    assert len(parsed_response["items"]) == 0
 
 @patch('lambdas.shopping_list.list_items.list_items.dynamodb')
 def test_list_items_by_date_empty_list(mock_dynamodb, setup_data):
@@ -131,10 +143,12 @@ def test_list_items_by_date_empty_list(mock_dynamodb, setup_data):
     mock_dynamodb.query.return_value = {"Items": []}
     
     response = lambda_function.lambda_handler(sample_event_with_date, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] is True
-    assert response["count"] == 0
-    assert len(response["items"]) == 0
+    assert response["statusCode"] == 200
+    assert parsed_response["success"] is True
+    assert parsed_response["count"] == 0
+    assert len(parsed_response["items"]) == 0
 
 def test_invalid_date_format(setup_data):
     """Testa o tratamento de formato de data inválido."""
@@ -143,10 +157,11 @@ def test_invalid_date_format(setup_data):
     invalid_event = {"date": "26-05-2025"}  # formato inválido
     
     response = lambda_function.lambda_handler(invalid_event, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] == False
     assert response["statusCode"] == 400
-    assert "Formato de data inválido" in response["message"]
+    assert parsed_response["success"] == False
+    assert "Formato de data inválido" in parsed_response["message"]
 
 def test_empty_string_date_parameter(setup_data):
     """Testa o comportamento com string vazia como data."""
@@ -154,11 +169,12 @@ def test_empty_string_date_parameter(setup_data):
     
     empty_string_event = {"date": ""}
     response = lambda_function.lambda_handler(empty_string_event, mock_context)
+    parsed_response = parse_response(response)
     
     # String vazia deve gerar erro na validação
-    assert response["success"] == False
     assert response["statusCode"] == 400
-    assert "Data é obrigatória" in response["message"]
+    assert parsed_response["success"] == False
+    assert "Data é obrigatória" in parsed_response["message"]
 
 @patch('lambdas.shopping_list.list_items.list_items.dynamodb')
 def test_dynamodb_client_error_scan(mock_dynamodb, setup_data):
@@ -170,10 +186,11 @@ def test_dynamodb_client_error_scan(mock_dynamodb, setup_data):
     )
     
     response = lambda_function.lambda_handler(sample_event_all, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] == False
     assert response["statusCode"] == 500
-    assert response["message"] == "Erro interno ao listar itens."
+    assert parsed_response["success"] == False
+    assert parsed_response["message"] == "Erro interno ao listar itens."
 
 @patch('lambdas.shopping_list.list_items.list_items.dynamodb')
 def test_dynamodb_client_error_query(mock_dynamodb, setup_data):
@@ -185,10 +202,11 @@ def test_dynamodb_client_error_query(mock_dynamodb, setup_data):
     )
     
     response = lambda_function.lambda_handler(sample_event_with_date, mock_context)
+    parsed_response = parse_response(response)
     
-    assert response["success"] == False
     assert response["statusCode"] == 500
-    assert response["message"] == "Erro interno ao listar itens."
+    assert parsed_response["success"] == False
+    assert parsed_response["message"] == "Erro interno ao listar itens."
 
 def test_validate_date_format_valid():
     """Testa a validação de formato de data válido."""
@@ -232,10 +250,11 @@ def test_simplify_item():
 def test_error_response():
     """Testa a criação de resposta de erro."""
     response = lambda_function.error_response(400, "Erro de teste")
+    parsed_response = parse_response(response)
     
-    assert response["success"] == False
     assert response["statusCode"] == 400
-    assert response["message"] == "Erro de teste"
+    assert parsed_response["success"] == False
+    assert parsed_response["message"] == "Erro de teste"
 
 @pytest.mark.parametrize("date_input,expected_pk", [
     ("2025-05-26", "list#20250526"),

@@ -1,14 +1,13 @@
 import boto3
 import os
+import json
 import logging
 from datetime import datetime
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
 dynamodb = boto3.client('dynamodb')
 TABLE_NAME = os.getenv("TABLE_NAME", "shopping_list")
-
 
 def lambda_handler(event, context):
     """
@@ -26,10 +25,15 @@ def lambda_handler(event, context):
             # Lista todos os itens (quando 'date' não está presente)
             items = list_all_items()
         
-        return {
+        response = {
             "success": True,
             "items": items,
             "count": len(items)
+        }
+        
+        return {
+            "statusCode": 200,
+            "body": json.dumps(response)
         }
         
     except ValueError as ve:
@@ -38,7 +42,6 @@ def lambda_handler(event, context):
     except Exception as e:
         logger.error(f"Erro ao listar itens: {str(e)}")
         return error_response(500, "Erro interno ao listar itens.")
-
 
 def list_items_by_date(date):
     """Lista itens de uma data específica."""
@@ -56,7 +59,6 @@ def list_items_by_date(date):
     
     return [simplify_item(item) for item in response.get("Items", [])]
 
-
 def list_all_items():
     """Lista todos os itens da tabela."""
     response = dynamodb.scan(
@@ -72,7 +74,6 @@ def list_all_items():
     # Ordena por data de criação (mais recente primeiro)
     return sorted(items, key=lambda x: x.get("createdAt", ""), reverse=True)
 
-
 def validate_date_format(date):
     """Valida se a data está no formato correto YYYY-MM-DD."""
     if not date:
@@ -83,16 +84,16 @@ def validate_date_format(date):
     except ValueError:
         raise ValueError("Formato de data inválido. Use YYYY-MM-DD.")
 
-
 def simplify_item(item):
     """Converte valores do DynamoDB para um dicionário simples Python."""
     return {k: list(v.values())[0] for k, v in item.items()}
 
-
 def error_response(status_code, message):
     """Retorna resposta de erro padronizada."""
     return {
-        "success": False,
         "statusCode": status_code,
-        "message": message
+        "body": json.dumps({
+            "success": False,
+            "message": message
+        })
     }
