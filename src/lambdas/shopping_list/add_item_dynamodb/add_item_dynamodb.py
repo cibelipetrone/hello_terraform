@@ -2,6 +2,7 @@ import boto3
 import os
 import uuid
 from datetime import datetime
+import json
 
 dynamodb = boto3.client("dynamodb")
 TABLE_NAME = os.getenv("TABLE_NAME", "shopping_list")
@@ -9,8 +10,14 @@ TABLE_NAME = os.getenv("TABLE_NAME", "shopping_list")
 
 def lambda_handler(event, context):
     try:
-        name = event.get("name")
-        date = event.get("date")
+        body = event.get("body")
+        if body and isinstance(body, str):
+            body = json.loads(body)
+        elif not body:
+            body = {}
+
+        name = body.get("name")
+        date = body.get("date")
 
         if not name or not date:
             return error_response(400, "'name' e 'date' são obrigatórios.")
@@ -29,10 +36,12 @@ def lambda_handler(event, context):
 
         dynamodb.put_item(TableName=TABLE_NAME, Item=item)
 
-        return {
+        response = {
             "success": True,
             "item": simplify_item(item)
         }
+
+        return lambda_response(201, response)
 
     except Exception as e:
         context.logger.log(f"Erro ao salvar item: {str(e)}")
@@ -45,8 +54,16 @@ def simplify_item(item):
 
 
 def error_response(status_code, message):
-    return {
+    body = {
         "success": False,
-        "statusCode": status_code,
         "message": message
+    }
+
+    return lambda_response(status_code, body)
+
+def lambda_response(status_code, body_dict):
+    return {
+        "statusCode": status_code,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps(body_dict)
     }
