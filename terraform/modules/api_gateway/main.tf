@@ -100,13 +100,14 @@ resource "aws_lambda_permission" "apigw_post_items" {
   action        = "lambda:InvokeFunction"
   function_name = var.lambda_post_items_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.this.execution_arn}/*/*/lista-tarefa"
+  source_arn    = "${aws_api_gateway_rest_api.this.execution_arn}/*/POST/lista-tarefa"
 }
 
 resource "aws_api_gateway_deployment" "this" {
   depends_on = [
     aws_api_gateway_integration.hello_get,
-    aws_api_gateway_integration.lista_tarefa_get
+    aws_api_gateway_integration.lista_tarefa_get,
+    aws_api_gateway_integration.lista_tarefa_post,
   ]
   rest_api_id = aws_api_gateway_rest_api.this.id
 }
