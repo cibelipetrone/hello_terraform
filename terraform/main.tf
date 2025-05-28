@@ -4,7 +4,7 @@ provider "aws" {
 
 # Backend
 
-terraform {
+/* terraform {
   backend "s3" {
     bucket         = "meu-terraform-state-bucket-dev"
     key            = "global/s3/terraform.tfstate"
@@ -56,7 +56,7 @@ resource "aws_dynamodb_table" "terraform_locks" {
     Name        = "Terraform Locks Table"
     Environment = "dev"
   }
-}
+} */
 
 
 module "dynamodb" {
@@ -154,5 +154,7 @@ module "api_gateway" {
   lambda_hello_name      = module.lambda_hello.lambda_name
   lambda_list_items_arn  = module.lambda_list_items.lambda_arn
   lambda_list_items_name = module.lambda_list_items.lambda_name
+  lambda_post_items_arn  = module.lambda_add_item.lambda_arn
+  lambda_post_items_name = module.lambda_add_item.lambda_name
   aws_region             = var.aws_region
 }
