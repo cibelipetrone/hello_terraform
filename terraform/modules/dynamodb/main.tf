@@ -1,8 +1,8 @@
 resource "aws_dynamodb_table" "shopping_list" {
-  name           = var.table_name
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "PK"
-  range_key      = "SK"
+  name         = var.table_name
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "PK"
+  range_key    = "SK"
 
   attribute {
     name = "PK"

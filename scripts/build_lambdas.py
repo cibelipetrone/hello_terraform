@@ -7,21 +7,26 @@ import sys
 # Configurações das funções Lambda
 LAMBDA_FUNCTIONS = {
     "hello_terraform": {
-        "src_dir": os.path.join("src", "lambda", "lambda_hello"),
+        "src_dir": os.path.join("src", "lambdas", "lambda_hello"),
         "dist_file": "hello_terraform_lambda.zip",
     },
     "shopping_list_add_item_dynamodb": {
-        "src_dir": os.path.join("src", "lambda", "shopping_list", "add_item_dynamodb"),
+        "src_dir": os.path.join("src", "lambdas", "shopping_list", "add_item_dynamodb"),
         "dist_file": "add_item_dynamodb.zip",
     },
     "shopping_list_update_item": {
-        "src_dir": os.path.join("src", "lambda", "shopping_list", "update_item"),
+        "src_dir": os.path.join("src", "lambdas", "shopping_list", "update_item"),
         "dist_file": "update_item.zip",
     },
     "shopping_list_delete_item": {
-        "src_dir": os.path.join("src", "lambda", "shopping_list", "delete_item"),
+        "src_dir": os.path.join("src", "lambdas", "shopping_list", "delete_item"),
         "dist_file": "delete_item.zip",
     },
+    "shopping_list_list_items": {
+    "src_dir": os.path.join("src", "lambdas", "shopping_list", "list_items"),
+    "dist_file": "list_items.zip",
+},
+
 }
 
 DIST_DIR = "dist"
