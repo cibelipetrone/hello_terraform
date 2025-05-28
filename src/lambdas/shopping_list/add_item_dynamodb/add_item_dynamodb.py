@@ -1,8 +1,13 @@
-import boto3
+import json
+import logging
 import os
 import uuid
 from datetime import datetime
-import json
+
+import boto3
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 dynamodb = boto3.client("dynamodb")
 TABLE_NAME = os.getenv("TABLE_NAME", "shopping_list")
@@ -31,20 +36,17 @@ def lambda_handler(event, context):
             "SK": {"S": sk},
             "name": {"S": name},
             "status": {"S": "todo"},
-            "createdAt": {"S": created_at}
+            "createdAt": {"S": created_at},
         }
 
         dynamodb.put_item(TableName=TABLE_NAME, Item=item)
 
-        response = {
-            "success": True,
-            "item": simplify_item(item)
-        }
+        response = {"success": True, "item": simplify_item(item)}
 
         return lambda_response(201, response)
 
     except Exception as e:
-        context.logger.log(f"Erro ao salvar item: {str(e)}")
+        logger.error(f"Erro ao salvar item: {str(e)}")
         return error_response(500, "Erro interno ao salvar item.")
 
 
@@ -54,16 +56,14 @@ def simplify_item(item):
 
 
 def error_response(status_code, message):
-    body = {
-        "success": False,
-        "message": message
-    }
+    body = {"success": False, "message": message}
 
     return lambda_response(status_code, body)
+
 
 def lambda_response(status_code, body_dict):
     return {
         "statusCode": status_code,
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(body_dict)
+        "body": json.dumps(body_dict),
     }
