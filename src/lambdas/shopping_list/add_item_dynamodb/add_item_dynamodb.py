@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import re
 import uuid
 from datetime import datetime
 
@@ -26,6 +27,15 @@ def lambda_handler(event, context):
 
         if not name or not date:
             return error_response(400, "'name' e 'date' são obrigatórios.")
+
+        # Validate date format (YYYY-MM-DD)
+
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
+            return error_response(400, "Formato de data inválido. Use YYYY-MM-DD.")
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+        except ValueError:
+            return error_response(400, "Formato de data inválido. Use YYYY-MM-DD.")
 
         pk = f"list#{date.replace('-', '')}"
         sk = f"item#{uuid.uuid4()}"
