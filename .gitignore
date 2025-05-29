@@ -53,6 +53,7 @@ build/
 .zip
 
 # Ambiente virtual
+.venv/
 venv/
 .env/
 .envrc

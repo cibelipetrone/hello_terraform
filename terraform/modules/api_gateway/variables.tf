@@ -29,6 +29,16 @@ variable "lambda_list_items_name" {
   type        = string
 }
 
+variable "lambda_post_items_arn" {
+  description = "ARN da Lambda post_items"
+  type        = string
+}
+
+variable "lambda_post_items_name" {
+  description = "Nome da Lambda post_items"
+  type        = string
+}
+
 variable "aws_region" {
   description = "Região AWS"
   type        = string
